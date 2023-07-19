@@ -6,7 +6,7 @@ import { Button } from 'react-bootstrap';
 
 function PokemonCard({ name }) {
   const [pokemon, setPokemon] = useState(null);
-  const { addFavorite } = useContext(FavoritesContext);
+  const { favorites, addFavorite, removeFavorite } = useContext(FavoritesContext);
 
   useEffect(() => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
@@ -42,9 +42,15 @@ function PokemonCard({ name }) {
             ))}
           </ul>
         </Card.Text>
-        <Button variant='primary' onClick={() => addFavorite(name)}>
+        {favorites.includes(name) ? (
+          <Button variant='danger' onClick={() => removeFavorite(name)}>
+            Remove from Favorites
+          </Button>
+        ) : (
+          <Button variant='primary' onClick={() => addFavorite(name)}>
           Add to Favorites
         </Button>
+        )}
       </Card.Body>
     </Card>
   );
